@@ -1,0 +1,4 @@
+OTOOL_SRC_PATH=src/otool/
+OTOOL_SRC_NAME=main.c
+
+OTOOL_SRC=$(addprefix $(OTOOL_SRC_PATH), $(OTOOL_SRC_NAME))
