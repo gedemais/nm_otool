@@ -1,8 +1,18 @@
-NM_NAME=nm
-OTOOL_NAME=otool
+NM_NAME=ft_nm
+OTOOL_NAME=ft_otool
 
 CC=gcc
-FLAGS=-Wall -Werror -Wextra# -Weverything
+FLAGS=-Wall -Werror -Wextra -Weverything
+
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+    FLAGS += -g3 -fsanitize=address
+endif
+
+OPTI ?= 0
+ifeq ($(OPTI), 1)
+    FLAGS += -Ofast -march=native
+endif
 
 SCRIPT_PATH=scripts/
 
