@@ -37,28 +37,47 @@ char	**get_binarys_paths(int argc, char **argv, bool none)
 	return (bins);
 }
 
-static char	*map_binary(char *path, t_binary *bin)
+static int	map_binary(char *path, t_binary *bin)
 {
 	struct stat	info;
-	char		*content;
 	int			fd;
 
-	if ((fd = open(path, O_RDONLY)))
-		return (NULL);
+	if ((fd = open(path, O_RDONLY)) == -1 || fstat(fd, &info) == -1)
+		return (1);
 
-	if ()
+	bin->size = info.st_size;
+	if ((bin->content = mmap(0, (size_t)bin->size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
+		return (1);
 
-	if ((content = mmap()) == MAP_FAILED)
-		return (NULL);
+	return (0);
 }
 
-char		**get_binarys_content(t_nm_env *env)
+int		get_binarys_content(t_nm_env *env)
 {
-	if (!(contents = (char**)malloc(sizeof(char*) * (env->nb_binarys + 1))))
-		return (NULL);
+	t_binary	new;
+
+	if (init_dynarray(&env->binarys, sizeof(t_binary), 8))
+		return (1);
+
 	for (unsigned int i = 0; i < env->nb_binarys; i++)
 	{
-		if (!(contents[i] = map_binary(env->binarys_paths[i], &env->binary_files[i])))
-			return (NULL);
+		if (DEBUG_VERBOSE > 0)
+			printf("Mapping %s in memory...\n", env->binarys_paths[i]);
+
+		if (map_binary(env->binarys_paths[i], &new))
+		{
+			ft_putstr_fd("ft_nm : ", 2);
+			ft_putstr_fd(env->binarys_paths[i], 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
+			return (1);
+		}
+
+		if (push_dynarray(&env->binarys, &new, true))
+			return (1);
+
+		if (DEBUG_VERBOSE > 0)
+			printf("%s mapped in memory\n", env->binarys_paths[i]);
 	}
+	return (0);
 }

@@ -6,12 +6,8 @@ static int	ft_nm(t_nm_env *env, int argc, char **argv)
 		return (1);
 
 	env->nb_binarys = (unsigned)ft_tablen(env->binarys_paths);
-
-	if (!(env->binary_files = get_binarys_files_content(env)))
-	{
-		nm_free(env);
+	if (get_binarys_content(env))
 		return (1);
-	}
 
 	for (int i = 0; env->binarys_paths[i]; i++)
 	{
