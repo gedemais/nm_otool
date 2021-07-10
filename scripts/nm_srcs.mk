@@ -1,6 +1,8 @@
 NM_SRC_PATH=src/nm/
 
 NM_SRC_NAME=main.c\
+			check_input_binary.c\
+			error.c\
 			nm_io.c\
 			free.c
 

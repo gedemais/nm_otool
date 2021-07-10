@@ -6,12 +6,14 @@ static int	ft_nm(t_nm_env *env, int argc, char **argv)
 		return (1);
 
 	env->nb_binarys = (unsigned)ft_tablen(env->binarys_paths);
+
 	if (get_binarys_content(env))
 		return (1);
 
 	for (int i = 0; env->binarys_paths[i]; i++)
 	{
-		
+		if (binary_checkup(dyacc(&env->binarys, i), env->binarys_paths[i]))
+			return (1);
 	}
 	return (EXIT_SUCCESS);
 }
