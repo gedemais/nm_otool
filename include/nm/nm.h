@@ -12,9 +12,11 @@
 
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
-# include <mach-o/machine.h>
+# include <mach/machine.h>
 
 # define DEBUG_VERBOSE 1
+
+# define SYM_MAX_SIZE 128
 
 typedef struct	s_aligned_mach_header_64
 {
@@ -30,8 +32,12 @@ typedef struct	s_aligned_mach_header_64
 
 typedef struct	s_binary
 {
-	void	*content; // Content of the mapped binary file
-	off_t	size; // Size of the mapped binary file
+	void					*content; // Content of the mapped binary file
+	struct symtab_command	*symtable; // Address of the symtable section
+	char					*stdout_buffer;
+	off_t					size; // Size of the mapped binary file
+	uint32_t				arch; // 32 / 64 bits
+	uint32_t				pad;
 }				t_binary;
 
 typedef struct	s_nm_env

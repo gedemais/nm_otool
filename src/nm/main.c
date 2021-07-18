@@ -12,7 +12,8 @@ static int	ft_nm(t_nm_env *env, int argc, char **argv)
 
 	for (int i = 0; env->binarys_paths[i]; i++)
 	{
-		if (binary_checkup(dyacc(&env->binarys, i), env->binarys_paths[i]))
+		if (binary_checkup(dyacc(&env->binarys, i), env->binarys_paths[i])
+			|| stdout_buffer(dyacc(&env->binarys, i)))
 			return (1);
 	}
 	return (EXIT_SUCCESS);

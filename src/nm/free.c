@@ -9,6 +9,8 @@ static void unmap_binarys(t_nm_env *env)
 		bin = dyacc(&env->binarys, i);
 		if (munmap(bin->content, (size_t)bin->size) == -1)
 			ft_putendl_fd(strerror(errno), 2);
+		if (bin->stdout_buffer)
+			free(bin->stdout_buffer);
 	}
 	free_dynarray(&env->binarys);
 }

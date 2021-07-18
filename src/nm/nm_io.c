@@ -61,6 +61,7 @@ int		get_binarys_content(t_nm_env *env)
 
 	for (unsigned int i = 0; i < env->nb_binarys; i++)
 	{
+		ft_memset(&new, 0, sizeof(t_binary));
 		if (DEBUG_VERBOSE > 0)
 			printf("Mapping %s in memory...\n", env->binarys_paths[i]);
 
